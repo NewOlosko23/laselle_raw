@@ -1,19 +1,44 @@
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 pt-16 pb-10 px-6 transition-colors duration-300">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* About Us */}
+        {/* About Us & Portals */}
         <div>
           <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
             About Us
           </h3>
-          <p className="text-sm leading-relaxed">
-            La Salle School Homa Bay is a Catholic-based institution under the
-            De La Salle Brothers, offering holistic education with a focus on
-            academic excellence, spiritual formation, and student leadership.
+          <p className="text-sm leading-relaxed mb-4">
+            La Salle School Homa Bay is a Catholic institution run by the De La
+            Salle Brothers, committed to nurturing academic excellence, values,
+            and leadership.
           </p>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <a
+                href="/student-portal"
+                className="text-blue-600 hover:underline"
+              >
+                Student Portal
+              </a>
+            </li>
+            <li>
+              <a
+                href="/teacher-portal"
+                className="text-blue-600 hover:underline"
+              >
+                Teacher's Portal
+              </a>
+            </li>
+            <li>
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Admin Portal
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {/* Contact Info */}
@@ -93,11 +118,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-      </div>
-
-      <div className="mt-12 text-center text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-6">
-        © {new Date().getFullYear()} La Salle School Homa Bay. All rights
-        reserved.
       </div>
     </footer>
   );

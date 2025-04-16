@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const Admissions = () => {
   const [formData, setFormData] = useState({
-    formDate: "",
     surname: "",
     otherNames: "",
     dob: "",
@@ -18,10 +17,6 @@ const Admissions = () => {
     mobile: "",
     altMobile: "",
     email: "",
-    interviewFeePaid: "",
-    interviewDate: "",
-    registeredBy: "",
-    signature: "",
     officialDate: "",
   });
 

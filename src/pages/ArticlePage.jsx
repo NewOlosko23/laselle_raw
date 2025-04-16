@@ -59,7 +59,7 @@ const ArticlePage = () => {
   }
 
   return (
-    <section className="pt-24 px-4 mt-16 md:px-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section className="pt-24 pb-10 px-4 mt-16 md:px-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-3xl mx-auto">
         <img
           src={article.image}

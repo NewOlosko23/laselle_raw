@@ -74,7 +74,7 @@ const Blog = () => {
                 {article.date} • By {article.author}
               </p>
               <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
-                {article.description}
+                {article.content}
               </p>
               <Link
                 to={`/blogs/${article.slug}`}

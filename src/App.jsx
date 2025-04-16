@@ -9,11 +9,14 @@ import Gallery from "./pages/Gallery";
 import Admissions from "./pages/Admissions";
 import ArticlePage from "./pages/ArticlePage";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Articles from "./pages/Dashboard/Articles";
+import Fees from "./pages/Dashboard/Fees";
+import Calendar from "./pages/Dashboard/Calendar";
 
 import ProtectedRoute from "./components/ProtectedRoutes";
 import Header from "./components/Header";
-//import Footer from "./components/Footer";
+import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/scrollToTop";
 
 function App() {
@@ -22,6 +25,7 @@ function App() {
       <Header />
       <ScrollToTopButton />
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/academics" element={<Academics />} />
         <Route path="/careers" element={<Careers />} />
@@ -32,6 +36,7 @@ function App() {
         <Route path="/admissions" element={<Admissions />} />
         <Route path="/blogs/:slug" element={<ArticlePage />} />
         <Route path="/login" element={<Login />} />
+
         <Route
           path="/dashboard"
           element={
@@ -39,8 +44,13 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="articles" element={<Articles />} />
+          <Route path="fees" element={<Fees />} />
+          <Route path="calendar" element={<Calendar />} />
+        </Route>
       </Routes>
+      <Footer />
     </>
   );
 }

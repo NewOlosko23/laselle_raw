@@ -10,7 +10,7 @@ const Quote = () => {
           className="relative bg-blue-50 dark:bg-gray-800 p-8 rounded-2xl shadow-lg"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
         >
           <FaQuoteLeft className="text-blue-500 text-4xl mb-4 mx-auto" />
           <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-200 leading-relaxed">
@@ -24,7 +24,7 @@ const Quote = () => {
           </p>
           <div className="mt-6 flex items-center justify-center gap-4">
             <div className="w-14 h-14 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-white text-lg font-semibold">
-              <img src={Director} alt="director" />
+              <img className="rounded-full" src={Director} alt="director" />
             </div>
             <div className="text-left">
               <p className="font-semibold text-gray-800 dark:text-white">
