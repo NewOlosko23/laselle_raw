@@ -1,56 +1,33 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link
-import Elections from "../assets/elections.jpg";
-import Sports from "../assets/sports2.jpg";
-import Bishop from "../assets/bishop.jpg";
-import Students from "../assets/students1.jpg";
-
-const articles = [
-  {
-    slug: "student-council-elections",
-    title: "Student Council Elections",
-    author: "Admin",
-    date: "Jan 17, 2025",
-    image: Elections,
-    content:
-      "We are excited to announce that our Student Council Elections will be held on 21st Jan, 2025 digitally. This move represents our continued efforts to embrace technology and enhance participation across all classes...",
-  },
-  {
-    slug: "2025-elections-council",
-    title: "CONGRATULATIONS TO 2025/26 ELECTIONS COUNCIL",
-    author: "Admin",
-    date: "Jan 22, 2025",
-    image: Students,
-    content:
-      "We extend our heartfelt gratitude to everyone who contributed to the success of the recent elections. The leadership spirit shown by the students is commendable and reflects the CBC core competencies...",
-  },
-  {
-    slug: "bishop-visits-to-school",
-    title: "Courtesy Visit of His Grace Archbishop Maurice Mukhatia Makumba.",
-    author: "Admin",
-    date: "Feb 15, 2025",
-    image: Bishop,
-    content:
-      "On 15th February 2025, we had the honor of hosting His Grace Bishop Maurice Mukhatia Makumba. He toured our school, engaged with students, and blessed our newly constructed learning blocks. It was a spiritual and developmental milestone...",
-  },
-  {
-    slug: "preschool-sports-day",
-    title: "Pre-School Sports Day",
-    author: "Admin",
-    date: "Feb 25, 2025",
-    image: Sports,
-    content:
-      "Preschool Sports Day was filled with joy and energy. Little champions participated in various activities that encouraged physical growth and fun. Parents also joined in for the fun, making it a memorable day for everyone!",
-  },
-];
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Blogs = () => {
+  const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "articles"));
+        const fetchedArticles = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setArticles(fetchedArticles);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   const filteredArticles = articles.filter(
     (article) =>
-      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.description.toLowerCase().includes(searchTerm.toLowerCase())
+      article.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      article.content?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -64,7 +41,6 @@ const Blogs = () => {
         </p>
       </div>
 
-      {/* Search Bar */}
       <div className="flex justify-center mb-8">
         <input
           type="text"
@@ -75,17 +51,16 @@ const Blogs = () => {
         />
       </div>
 
-      {/* Articles Grid */}
       {filteredArticles.length > 0 ? (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredArticles.map((article) => (
             <Link
-              to={`/blogs/${article.slug}`} // <- Link using slug
-              key={article.slug}
+              to={`/blogs/${article.slug}`}
+              key={article.id}
               className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 block"
             >
               <img
-                src={article.image}
+                src={article.thumbnailUrl} 
                 alt={article.title}
                 className="h-48 w-full object-cover"
               />
@@ -94,10 +69,10 @@ const Blogs = () => {
                   {article.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  {article.date} • By {article.author}
+                  {article.date} • By {article.postedBy}
                 </p>
                 <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
-                  {article.content}
+                  {article.content?.slice(0, 150)}...
                 </p>
               </div>
             </Link>

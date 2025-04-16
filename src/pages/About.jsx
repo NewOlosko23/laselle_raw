@@ -56,7 +56,7 @@ const About = () => {
             <img
               src={Baptiste}
               alt="St. John Baptist de La Salle"
-              className="rounded shadow-lg"
+              className="rounded shadow-lg h-fit"
             />
           </div>
           <div>

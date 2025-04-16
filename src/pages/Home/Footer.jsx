@@ -22,7 +22,7 @@ const Footer = () => {
                 href="/student-portal"
                 className="text-blue-600 hover:underline"
               >
-                Student Portal
+                Student's Portal
               </a>
             </li>
             <li>
