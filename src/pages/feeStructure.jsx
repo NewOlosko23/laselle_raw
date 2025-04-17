@@ -1,44 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase"; 
 
 const feeStructure = () => {
-  const fees = [
-    {
-      level: "Playgroup",
-      terms: {
-        term1: "KES 10,000",
-        term2: "KES 9,000",
-        term3: "KES 8,000",
-      },
-      includes: ["Tuition", "Meals", "Play Materials"],
-    },
-    {
-      level: "Pre-School",
-      terms: {
-        term1: "KES 15,000",
-        term2: "KES 13,500",
-        term3: "KES 12,000",
-      },
-      includes: ["Tuition", "Meals", "Activities"],
-    },
-    {
-      level: "Pre-Primary",
-      terms: {
-        term1: "KES 20,000",
-        term2: "KES 18,000",
-        term3: "KES 16,000",
-      },
-      includes: ["Tuition", "Meals", "Books"],
-    },
-    {
-      level: "Primary",
-      terms: {
-        term1: "KES 25,000",
-        term2: "KES 22,000",
-        term3: "KES 20,000",
-      },
-      includes: ["Tuition", "Meals", "Books"],
-    },
-  ];
+  const [fees, setFees] = useState([]);
+
+  useEffect(() => {
+    const fetchFees = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "fees"));
+        const feesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFees(feesData);
+      } catch (error) {
+        console.error("Error fetching fee structure:", error);
+      }
+    };
+
+    fetchFees();
+  }, []);
 
   return (
     <section className="py-20 px-6 md:px-12 bg-white dark:bg-gray-950">
@@ -59,16 +41,13 @@ const feeStructure = () => {
                 </h3>
                 <div className="text-center mb-4 space-y-1">
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Term 1:{" "}
-                    <span className="font-semibold">{fee.terms.term1}</span>
+                    Term 1: <span className="font-semibold">{fee.terms.term1}</span>
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Term 2:{" "}
-                    <span className="font-semibold">{fee.terms.term2}</span>
+                    Term 2: <span className="font-semibold">{fee.terms.term2}</span>
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Term 3:{" "}
-                    <span className="font-semibold">{fee.terms.term3}</span>
+                    Term 3: <span className="font-semibold">{fee.terms.term3}</span>
                   </p>
                 </div>
                 <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 space-y-2">

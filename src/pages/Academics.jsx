@@ -13,9 +13,9 @@ const Academics = () => {
         more.
       </p>
 
-      <SchoolCalendar />s
-      <FeeStructure />
       <AcademicInfo />
+      <SchoolCalendar />
+      <FeeStructure />
     </div>
   );
 };
