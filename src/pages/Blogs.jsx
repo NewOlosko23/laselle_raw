@@ -55,12 +55,12 @@ const Blogs = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredArticles.map((article) => (
             <Link
-              to={`/blogs/${article.slug}`}
+              to={`/blogs/${article.id}`}
               key={article.id}
               className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 block"
             >
               <img
-                src={article.thumbnailUrl} 
+                src={article.thumbnailUrl}
                 alt={article.title}
                 className="h-48 w-full object-cover"
               />
@@ -68,9 +68,15 @@ const Blogs = () => {
                 <h3 className="font-semibold text-lg text-blue-800 dark:text-blue-400 mb-1">
                   {article.title}
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  {article.date} • By {article.postedBy}
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+                  {article.datePosted?.toDate().toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
+                  • By {article.postedBy}
                 </p>
+
                 <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
                   {article.content?.slice(0, 150)}...
                 </p>

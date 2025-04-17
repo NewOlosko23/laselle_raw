@@ -1,51 +1,42 @@
 import { useParams, Link } from "react-router-dom";
-import Elections from "../assets/elections.jpg";
-import Sports from "../assets/sports2.jpg";
-import Bishop from "../assets/bishop.jpg";
-import Students from "../assets/students1.jpg";
-
-const articles = [
-  {
-    slug: "student-council-elections",
-    title: "Student Council Elections",
-    author: "Admin",
-    date: "Jan 17, 2025",
-    image: Elections,
-    content:
-      "We are excited to announce that our Student Council Elections will be held on 21st Jan, 2025 digitally. This move represents our continued efforts to embrace technology and enhance participation across all classes...",
-  },
-  {
-    slug: "2025-elections-council",
-    title: "CONGRATULATIONS TO 2025/26 ELECTIONS COUNCIL",
-    author: "Admin",
-    date: "Jan 22, 2025",
-    image: Students,
-    content:
-      "We extend our heartfelt gratitude to everyone who contributed to the success of the recent elections. The leadership spirit shown by the students is commendable and reflects the CBC core competencies...",
-  },
-  {
-    slug: "bishop-visits-to-school",
-    title: "Courtesy Visit of His Grace Archbishop Maurice Mukhatia Makumba.",
-    author: "Admin",
-    date: "Feb 15, 2025",
-    image: Bishop,
-    content:
-      "On 15th February 2025, we had the honor of hosting His Grace Bishop Maurice Mukhatia Makumba. He toured our school, engaged with students, and blessed our newly constructed learning blocks. It was a spiritual and developmental milestone...",
-  },
-  {
-    slug: "preschool-sports-day",
-    title: "Pre-School Sports Day",
-    author: "Admin",
-    date: "Feb 25, 2025",
-    image: Sports,
-    content:
-      "Preschool Sports Day was filled with joy and energy. Little champions participated in various activities that encouraged physical growth and fun. Parents also joined in for the fun, making it a memorable day for everyone!",
-  },
-];
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const ArticlePage = () => {
-  const { slug } = useParams();
-  const article = articles.find((a) => a.slug === slug);
+  const { id } = useParams();
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const docRef = doc(db, "articles", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setArticle({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          setArticle(null);
+        }
+      } catch (error) {
+        console.error("Error fetching article:", error);
+        setArticle(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticle();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="pt-24 px-4 text-center text-gray-600 dark:text-gray-300">
+        Loading article...
+      </div>
+    );
+  }
 
   if (!article) {
     return (
@@ -62,7 +53,7 @@ const ArticlePage = () => {
     <section className="pt-24 pb-10 px-4 mt-16 md:px-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-3xl mx-auto">
         <img
-          src={article.image}
+          src={article.thumbnailUrl}
           alt={article.title}
           className="w-full rounded-lg shadow-md mb-6"
         />
@@ -70,7 +61,12 @@ const ArticlePage = () => {
           {article.title}
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
-          {article.date} • By {article.author}
+          {article.datePosted?.toDate().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}{" "}
+          • By {article.postedBy}
         </p>
         <div className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
           {article.content}

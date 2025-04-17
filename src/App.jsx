@@ -34,7 +34,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about" element={<About />} />
         <Route path="/admissions" element={<Admissions />} />
-        <Route path="/blogs/:slug" element={<ArticlePage />} />
+        <Route path="/blogs/:id" element={<ArticlePage />} />
         <Route path="/login" element={<Login />} />
 
         <Route
