@@ -18,12 +18,14 @@ import ProtectedRoute from "./components/ProtectedRoutes";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/scrollToTop";
+import UpdateScroll from "./components/updateScroll";
 
 function App() {
   return (
     <>
       <Header />
       <ScrollToTopButton />
+      <UpdateScroll />
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />
