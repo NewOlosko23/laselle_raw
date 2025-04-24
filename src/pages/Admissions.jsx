@@ -33,7 +33,6 @@ const Admissions = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Generate JSON from form data and send it to the school HR or API
     console.log("Submitted Data:", formData);
     alert("Form submitted successfully!");
   };
@@ -86,7 +85,9 @@ const Admissions = () => {
         <div className="text-center mb-6">
           <p>Please download the application form and fill it out manually.</p>
           <a
-            href="../assets/pupil.pdf"
+            href="/pupil.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             download
             className="text-blue-600 underline"
           >
